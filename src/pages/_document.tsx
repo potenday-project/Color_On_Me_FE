@@ -34,6 +34,10 @@ export default class AppDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icon.png"></link>
           <meta name="theme-color" content="#fff" />
+          <script
+            defer
+            src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
+          ></script>
         </Head>
         <body>
           <Main />
