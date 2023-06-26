@@ -6,6 +6,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import GlobalStyle from "@/styles/GlobalStyle";
 
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
+
 export const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
