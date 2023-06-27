@@ -23,12 +23,12 @@ const SelectPage = () => {
 
   return (
     <div css={mainContainer}>
-      <Image
-        src="/images/chooseColor.png"
-        width={194}
-        height={72}
-        alt="chooseColor"
-      />
+      <div css={mainText}>
+        <span css={fontWeight}>퍼스널컬러</span>
+        를
+        <br />
+        선택해주세요 ✍
+      </div>
 
       <div css={subText}>
         나의 퍼스널컬러를 모른다면? <br />
@@ -72,6 +72,15 @@ const mainContainer = css`
   flex-direction: column;
   justify-content: center;
   padding: 0 10%;
+`;
+
+const mainText = css`
+  font-size: 30px;
+  font-family: "Pretendard";
+`;
+
+const fontWeight = css`
+  font-weight: 700;
 `;
 
 const subText = css`
