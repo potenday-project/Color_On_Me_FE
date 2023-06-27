@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import Image from "next/image";
 import { PERSONAL_COLOR } from "../shared/constants/constants";
 import { useIsShown } from "../shared/hooks/useIsShown";
 
@@ -10,9 +9,6 @@ const SelectPage = () => {
 
   const handleColorSelection = (color: string) => {
     setSelectedColor(color);
-    if (isShown) {
-      onClose();
-    }
   };
 
   const handleClickStartButton = () => {
@@ -21,14 +17,23 @@ const SelectPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (isShown) {
+      const modalCloseTimer = setTimeout(() => {
+        onClose();
+      }, 2000);
+      return () => clearTimeout(modalCloseTimer);
+    }
+  }, [isShown]);
+
   return (
     <div css={mainContainer}>
-      <Image
-        src="/images/chooseColor.png"
-        width={194}
-        height={72}
-        alt="chooseColor"
-      />
+      <div css={mainText}>
+        <span css={fontWeight}>퍼스널컬러</span>
+        를
+        <br />
+        선택해주세요 ✍
+      </div>
 
       <div css={subText}>
         나의 퍼스널컬러를 모른다면? <br />
@@ -74,6 +79,15 @@ const mainContainer = css`
   padding: 0 10%;
 `;
 
+const mainText = css`
+  font-size: 30px;
+  font-family: "Pretendard";
+`;
+
+const fontWeight = css`
+  font-weight: 700;
+`;
+
 const subText = css`
   color: #99a0a4;
   font-size: 12px;
@@ -108,14 +122,7 @@ const colorButton = css`
   font-size: 14px;
   font-family: "Pretendard";
   border: none;
-  cursor: pointer;
   color: #000;
-
-  -ms-user-select: none;
-  -moz-user-select: -moz-none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  user-select: none;
 `;
 
 const startButtonStyle = css`
