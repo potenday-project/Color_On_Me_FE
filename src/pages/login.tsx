@@ -1,6 +1,7 @@
+import type { NextPage } from "next";
 import LoginPage from "@/domains/login";
 
-const Login = () => {
+const Login: NextPage = () => {
   return <LoginPage />;
 };
 
