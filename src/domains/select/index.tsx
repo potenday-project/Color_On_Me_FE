@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
-import Image from "next/image";
 import { PERSONAL_COLOR } from "../shared/constants/constants";
 import { useIsShown } from "../shared/hooks/useIsShown";
 
@@ -10,9 +9,6 @@ const SelectPage = () => {
 
   const handleColorSelection = (color: string) => {
     setSelectedColor(color);
-    if (isShown) {
-      onClose();
-    }
   };
 
   const handleClickStartButton = () => {
@@ -20,6 +16,15 @@ const SelectPage = () => {
       onOpen();
     }
   };
+
+  useEffect(() => {
+    if (isShown) {
+      const modalCloseTimer = setTimeout(() => {
+        onClose();
+      }, 2000);
+      return () => clearTimeout(modalCloseTimer);
+    }
+  }, [isShown]);
 
   return (
     <div css={mainContainer}>
