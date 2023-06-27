@@ -108,14 +108,7 @@ const colorButton = css`
   font-size: 14px;
   font-family: "Pretendard";
   border: none;
-  cursor: pointer;
   color: #000;
-
-  -ms-user-select: none;
-  -moz-user-select: -moz-none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  user-select: none;
 `;
 
 const startButtonStyle = css`
