@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.22.5",
     "@emotion/babel-plugin": "^11.11.0",
+    "@svgr/webpack": "^8.0.1",
     "@tanstack/react-query-devtools": "^4.29.15"
   }
 }
