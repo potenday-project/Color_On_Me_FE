@@ -1,10 +1,11 @@
 import { css } from "@emotion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { BASE_URL } from "../shared/constants/constants";
 
 const LoginWithNaver = () => {
   return (
-    <Link href="http://localhost:8080/auth/login/naver">
+    <Link href={`${BASE_URL}/auth/login/naver`} css={linkStyle}>
       <button css={naverLoginButton}>
         <Image
           src="/icons/naverIcon.png"
@@ -18,6 +19,10 @@ const LoginWithNaver = () => {
     </Link>
   );
 };
+
+const linkStyle = css`
+  text-decoration: none;
+`;
 
 const naverLoginButton = css`
   width: 75vw;
