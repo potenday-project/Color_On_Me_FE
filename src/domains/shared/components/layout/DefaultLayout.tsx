@@ -27,7 +27,7 @@ const DefaultLayout = (
 ) => {
   const layoutMainStyle = useMemo(() => {
     return css`
-      height: 100%;
+      height: calc(100vh - 81px - 63px);
       ${centered &&
       css`
         display: flex;
