@@ -42,7 +42,7 @@ const HomePage = () => {
         <div css={moodTag}>#지적인</div>
         <div css={moodTag}>#잔잔한</div>
       </div>
-      <BottomSheet isOpen={isShown} close={onClose} />
+      {isShown && <BottomSheet isOpen={isShown} close={onClose} />}
       <ColorModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </DefaultLayout>
   );
