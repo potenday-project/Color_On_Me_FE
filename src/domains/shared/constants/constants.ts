@@ -19,3 +19,5 @@ export const FLATTENED_PERSONAL_COLOR = [
   "겨울 쿨 트루",
   "겨울 쿨 딥",
 ];
+
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
