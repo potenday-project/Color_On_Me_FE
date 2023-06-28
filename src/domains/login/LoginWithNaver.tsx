@@ -1,36 +1,12 @@
 import { css } from "@emotion/react";
-import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { BASE_URL } from "../shared/constants/constants";
 
 const LoginWithNaver = () => {
-  const naverRef = useRef<HTMLDivElement>(null);
-
-  const loginFormWithNaver = () => {
-    const naverLogin = new window.naver.LoginWithNaverId({
-      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
-      callbackUrl: "http://localhost:3000/login",
-      isPopup: false,
-      loginButton: { color: "green", type: 3, height: 58 },
-    });
-    naverLogin.init();
-  };
-
-  const handleNaverLogin = () => {
-    if (!naverRef.current) return;
-    const firstChild = naverRef.current.children[0] as HTMLButtonElement;
-    if (firstChild) {
-      firstChild.click();
-    }
-  };
-
-  useEffect(() => {
-    loginFormWithNaver();
-  }, []);
-
   return (
-    <>
-      <div ref={naverRef} id="naverIdLogin" css={displayNone} />
-      <button css={naverLoginButton} onClick={handleNaverLogin}>
+    <Link href={`${BASE_URL}/auth/login/naver`} css={linkStyle}>
+      <button css={naverLoginButton}>
         <Image
           src="/icons/naverIcon.png"
           alt="naverLogo"
@@ -40,12 +16,12 @@ const LoginWithNaver = () => {
         />
         네이버로 시작하기
       </button>
-    </>
+    </Link>
   );
 };
 
-const displayNone = css`
-  display: none;
+const linkStyle = css`
+  text-decoration: none;
 `;
 
 const naverLoginButton = css`

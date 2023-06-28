@@ -4,3 +4,5 @@ export const PERSONAL_COLOR = {
   fall: ["가을 웜 뮤트", "가을 웜 트루", "가을 웜 다크"],
   winter: ["겨울 쿨 브라이트", "겨울 쿨 트루", "겨울 쿨 다크"],
 };
+
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
