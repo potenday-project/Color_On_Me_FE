@@ -12,6 +12,9 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ["k.kakaocdn.net"],
+  },
 };
 
 const withPWA = require("next-pwa")({
