@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import HomePage from "@/domains/home";
+import withAuth from "@/domains/shared/hoc/withAuth";
 
 const Home: NextPage = () => {
   return (
@@ -17,3 +18,4 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+// export default withAuth(Home);
