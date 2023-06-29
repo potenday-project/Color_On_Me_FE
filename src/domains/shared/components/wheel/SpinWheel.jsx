@@ -12,11 +12,19 @@ const spin = keyframes`
   }
 `;
 
+// const SpinnedCircle = styled.div`
+//   width: 100px;
+//   height: 100px;
+//   cursor: pointer;
+//   /* animation: ${spin} 5s linear infinite; */
+// `;
+
 const SpinnedCircle = styled.div`
   width: 100px;
   height: 100px;
   cursor: pointer;
   /* animation: ${spin} 5s linear infinite; */
+  /* transform: ${({ rotation }) => `rotate(${rotation}deg)`}; */
 `;
 
 export default function SpinWheel() {
@@ -100,7 +108,8 @@ export default function SpinWheel() {
       const y = clientY - (top + height / 2);
       const currentAngle = R2D * Math.atan2(y, x);
       const rotationAmount = currentAngle - angle;
-      setRotation(rotationAmount);
+      setRotation((prevRotation) => prevRotation + rotationAmount);
+      setAngle(currentAngle);
     }
   };
 
@@ -116,6 +125,7 @@ export default function SpinWheel() {
       onMouseDown={handleRotateStart}
       onMouseMove={handleRotateMove}
       onMouseUp={handleRotateStop}
+      // onleave 하면 꺼지게 하기
     >
       <div
         id="draggable"
@@ -123,6 +133,7 @@ export default function SpinWheel() {
         style={{
           width: "100%",
           height: "100%",
+          transform: `rotate(${rotation}deg)`, // Apply rotation here
         }}
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
