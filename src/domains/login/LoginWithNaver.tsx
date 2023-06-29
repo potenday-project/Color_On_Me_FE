@@ -34,7 +34,7 @@ const LoginWithNaver = () => {
         <KakaoIcon
           css={css`
             width: 20px;
-            height: 19px;
+            height: 20px;
 
             position: absolute;
             left: 20px;
