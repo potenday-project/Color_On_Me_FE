@@ -1,21 +1,23 @@
-import { useState } from "react";
+import { ButtonHTMLAttributes, useState } from "react";
 import { css } from "@emotion/css";
 import Sheet from "react-modal-sheet";
 import { FLATTENED_PERSONAL_COLOR } from "../constants/constants";
 import { mobileStyle } from "@/styles/sharedStyles";
 
-type BottomSheetProps = {
+interface BottomSheetProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isOpen: boolean;
   close: () => void;
-};
+  handleClick: (color: string) => void;
+}
 
-const BottomSheet = ({ isOpen, close }: BottomSheetProps) => {
-  const [selectedColor, setSelectedColor] = useState<string>("");
+const BottomSheet = ({ isOpen, close, handleClick }: BottomSheetProps) => {
+  // const [selectedColor, setSelectedColor] = useState<string>("");
 
-  const handleColorSelection = (color: string) => {
-    setSelectedColor(color);
-    close();
-  };
+  // const handleColorSelection = (color: string) => {
+  //   onClick();
+  //   setSelectedColor(color);
+  //   close();
+  // };
 
   return (
     <Sheet snapPoints={[500]} isOpen={isOpen} onClose={close} css={sheetStyle}>
@@ -26,7 +28,7 @@ const BottomSheet = ({ isOpen, close }: BottomSheetProps) => {
             <button
               key={color}
               css={colorButton}
-              onClick={() => handleColorSelection(color)}
+              onClick={() => handleClick(color)}
             >
               {color}
             </button>

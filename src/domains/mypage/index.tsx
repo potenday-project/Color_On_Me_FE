@@ -27,7 +27,19 @@ const MypageView = () => {
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const headerText = isEdit ? "프로필 수정" : "마이페이지";
+  const headerText = isEdit ? "마이페이지 변경" : "마이페이지";
+
+  const [selectedColor, setSelectedColor] = useState<string>("");
+
+  const handleColorSelection = (color: string) => {
+    setSelectedColor(color);
+    setIsEdit(true);
+    onClose();
+  };
+
+  const handleCancel = () => {
+    setIsEdit(false);
+  };
 
   return (
     <DefaultLayout header={<Header>{headerText}</Header>}>
@@ -49,14 +61,36 @@ const MypageView = () => {
             <Tag key={tag}>{tag}</Tag>
           ))}
         </div>
-        <div css={buttonContainer}>
-          <Button variant="colored" onClick={onOpen}>
-            퍼스널컬러 변경하기
-          </Button>
-          <button css={logoutButton}>로그아웃</button>
-        </div>
+
+        {isEdit ? (
+          <div
+            css={css`
+              ${buttonContainer}
+              display: flex;
+              flex-direction: row;
+              gap: 15px;
+              margin-bottom: 20%;
+            `}
+          >
+            <Button onClick={handleCancel}>취소</Button>
+            <Button variant="colored">확인</Button>
+          </div>
+        ) : (
+          <div css={buttonContainer}>
+            <Button variant="colored" onClick={onOpen}>
+              퍼스널컬러 변경하기
+            </Button>
+            <button css={logoutButton}>로그아웃</button>
+          </div>
+        )}
       </div>
-      {isShown && <BottomSheet isOpen={isShown} close={onClose} />}
+      {isShown && (
+        <BottomSheet
+          isOpen={isShown}
+          close={onClose}
+          handleClick={handleColorSelection}
+        />
+      )}
     </DefaultLayout>
   );
 };
