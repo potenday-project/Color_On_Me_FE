@@ -44,9 +44,7 @@ const Navigation = () => {
 };
 
 const footerContainer = css`
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
+  width: 100%;
   height: 81px;
   border-radius: 15px 15px 0px 0px;
   background: #fafafa;
