@@ -11,3 +11,8 @@ export const centeredStyle = css`
   justify-content: center;
   align-items: center;
 `;
+
+export const mobileStyle = css`
+  max-width: 600px;
+  margin: 0 auto;
+`;

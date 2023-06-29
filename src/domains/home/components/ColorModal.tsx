@@ -23,6 +23,8 @@ const customStyles = {
   overlay: {
     background: "rgba(84, 84, 84, 0.80)",
     backdropFilter: "blur(2px)",
+    maxWidth: "600px",
+    margin: "0 auto",
   },
 };
 

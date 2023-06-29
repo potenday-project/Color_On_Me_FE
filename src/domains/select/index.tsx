@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { PERSONAL_COLOR } from "../shared/constants/constants";
 import { useIsShown } from "../shared/hooks/useIsShown";
+import CenteredLayout from "../shared/components/layout/CenteredLayout";
 
 const SelectPage = () => {
   const [isShown, onOpen, onClose] = useIsShown();

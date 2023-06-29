@@ -1,26 +1,28 @@
 import { css } from "@emotion/react";
 import LoginWithNaver from "./LoginWithNaver";
 import MainLogo from "../shared/components/MainLogo";
+import CenteredLayout from "../shared/components/layout/CenteredLayout";
 
 const LoginPage = () => {
   return (
-    <main css={homeContainer}>
-      <div css={logoPosition}>
-        <MainLogo />
-      </div>
-      <div css={loginPosition}>
-        <LoginWithNaver />
-      </div>
-    </main>
+    <CenteredLayout>
+      <main css={homeContainer}>
+        <div css={logoPosition}>
+          <MainLogo />
+        </div>
+        <div css={loginPosition}>
+          <LoginWithNaver />
+        </div>
+      </main>
+    </CenteredLayout>
   );
 };
 
 const homeContainer = css`
   width: 100%;
-  height: 100%;
-
+  height: 100vh;
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 
@@ -40,6 +42,7 @@ const logoPosition = css`
 `;
 
 const loginPosition = css`
+  width: 70%;
   position: absolute;
   bottom: 19%;
 `;

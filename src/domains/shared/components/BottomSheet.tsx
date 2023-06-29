@@ -2,6 +2,7 @@ import { useState } from "react";
 import { css } from "@emotion/css";
 import Sheet from "react-modal-sheet";
 import { FLATTENED_PERSONAL_COLOR } from "../constants/constants";
+import { mobileStyle } from "@/styles/sharedStyles";
 
 type BottomSheetProps = {
   isOpen: boolean;
@@ -40,6 +41,7 @@ const BottomSheet = ({ isOpen, close }: BottomSheetProps) => {
 const sheetStyle = css`
   background: rgba(84, 84, 84, 0.8);
   backdrop-filter: blur(2px);
+  ${mobileStyle}
 `;
 
 const contentStyle = css`

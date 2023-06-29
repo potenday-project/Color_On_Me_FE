@@ -25,7 +25,7 @@ const linkStyle = css`
 `;
 
 const naverLoginButton = css`
-  width: 75vw;
+  width: 100%;
   height: 50px;
   border-radius: 30px;
   background: #00c63b;

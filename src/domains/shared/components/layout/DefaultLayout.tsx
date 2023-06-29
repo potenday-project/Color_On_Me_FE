@@ -49,6 +49,8 @@ const DefaultLayout = (
 
 const mainContainer = css`
   height: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 `;
 
 export default forwardRef(DefaultLayout);
