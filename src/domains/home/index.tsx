@@ -22,6 +22,13 @@ const HomePage = () => {
     setIsOpen(false);
   }
 
+  const [selectedColor, setSelectedColor] = useState<string>("");
+
+  const handleColorSelection = (color: string) => {
+    setSelectedColor(color);
+    close();
+  };
+
   return (
     <DefaultLayout header={<MainHeader />}>
       <div css={containerStyle}>
@@ -42,7 +49,13 @@ const HomePage = () => {
         <div css={moodTag}>#지적인</div>
         <div css={moodTag}>#잔잔한</div>
       </div>
-      {isShown && <BottomSheet isOpen={isShown} close={onClose} />}
+      {isShown && (
+        <BottomSheet
+          isOpen={isShown}
+          close={onClose}
+          handleClick={handleColorSelection}
+        />
+      )}
       <ColorModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </DefaultLayout>
   );
