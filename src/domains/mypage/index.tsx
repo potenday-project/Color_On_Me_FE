@@ -28,11 +28,16 @@ const MypageView = () => {
   return (
     <DefaultLayout header={<Header>{headerText}</Header>}>
       <div css={mainContainer}>
-        <Profile />
         <div
           css={css`
-            /* margin-top: 40px; */
-            margin-top: 11%;
+            margin-top: 3%;
+          `}
+        >
+          <Profile />
+        </div>
+        <div
+          css={css`
+            margin-top: 7%;
           `}
         >
           <TitleText>여름 쿨 뮤트</TitleText>
@@ -42,8 +47,7 @@ const MypageView = () => {
             display: flex;
             justify-content: space-between;
             margin-top: 4%;
-            /* margin-top: 14px; */
-            height: 35%;
+            height: 40%;
           `}
         >
           {colors.map((color) => (
@@ -57,6 +61,9 @@ const MypageView = () => {
             justify-content: center;
             gap: 10px;
             margin-top: 10%;
+            @media (max-height: 800px) {
+              margin-top: 4%;
+            }
           `}
         >
           {moodTags.map((tag) => (
@@ -66,12 +73,19 @@ const MypageView = () => {
         <div
           css={css`
             display: flex;
-            /* height: 100%; */
-            /* flex-direction: column-reverse; */
-            align-items: flex-end;
+            justify-content: center;
+            align-items: center;
             flex-direction: column;
             gap: 17px;
-            margin-top: 10%;
+
+            width: 100%;
+            margin-top: auto;
+            margin-bottom: 10%;
+            /* 아이폰 SE */
+            @media (max-height: 800px) {
+              gap: 8px;
+              margin-bottom: 5%;
+            }
           `}
         >
           <Button variant="colored">퍼스널컬러 변경하기</Button>
@@ -96,9 +110,14 @@ const MypageView = () => {
 };
 
 const mainContainer = css`
-  padding: 0 5%;
   width: 100%;
   height: 100%;
+  padding: 0 5%;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export default MypageView;
