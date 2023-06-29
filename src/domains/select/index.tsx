@@ -28,52 +28,54 @@ const SelectPage = () => {
   }, [isShown]);
 
   return (
-    <div css={mainContainer}>
-      <div css={mainText}>
-        <span css={fontWeight}>퍼스널컬러</span>
-        를
-        <br />
-        선택해주세요 ✍
-      </div>
-
-      <div css={subText}>
-        나의 퍼스널컬러를 모른다면? <br />
-        색상과 분위기가 궁금한 퍼스널컬러를 선택하세요 :-)
-      </div>
-
-      <div css={buttonContainer}>
-        <div css={gridStyle}>
-          {Object.entries(PERSONAL_COLOR).map(([season, colors]) => (
-            <div key={season} css={columnStyle}>
-              {colors?.map((color) => (
-                <button
-                  key={color}
-                  css={css`
-                    ${colorButton};
-                    background: ${selectedColor === color
-                      ? "#C9C9C9"
-                      : "#f4f4f4"};
-                  `}
-                  onClick={() => handleColorSelection(color)}
-                >
-                  {color}
-                </button>
-              ))}
-            </div>
-          ))}
+    <CenteredLayout>
+      <div css={mainContainer}>
+        <div css={mainText}>
+          <span css={fontWeight}>퍼스널컬러</span>
+          를
+          <br />
+          선택해주세요 ✍
         </div>
-        {isShown && <div css={alertModal}>퍼스널 컬러를 선택해주세요</div>}
+
+        <div css={subText}>
+          나의 퍼스널컬러를 모른다면? <br />
+          색상과 분위기가 궁금한 퍼스널컬러를 선택하세요 :-)
+        </div>
+
+        <div css={buttonContainer}>
+          <div css={gridStyle}>
+            {Object.entries(PERSONAL_COLOR).map(([season, colors]) => (
+              <div key={season} css={columnStyle}>
+                {colors?.map((color) => (
+                  <button
+                    key={color}
+                    css={css`
+                      ${colorButton};
+                      background: ${selectedColor === color
+                        ? "#C9C9C9"
+                        : "#f4f4f4"};
+                    `}
+                    onClick={() => handleColorSelection(color)}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+          {isShown && <div css={alertModal}>퍼스널 컬러를 선택해주세요</div>}
+        </div>
+        <button css={startButtonStyle} onClick={handleClickStartButton}>
+          컬러온미 시작하기
+        </button>
       </div>
-      <button css={startButtonStyle} onClick={handleClickStartButton}>
-        컬러온미 시작하기
-      </button>
-    </div>
+    </CenteredLayout>
   );
 };
 
 const mainContainer = css`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
