@@ -12,6 +12,9 @@ const headerContainer = css`
   height: 63px;
   padding: 12px 0 12px 5%;
 
+  display: flex;
+  align-items: center;
+
   color: #000;
   font-size: 18px;
   font-family: "Pretendard";
