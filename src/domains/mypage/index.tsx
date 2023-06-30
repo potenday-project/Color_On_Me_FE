@@ -154,9 +154,7 @@ const logoutButton = css`
   font-size: 12px;
   font-family: "Pretendard";
 
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-position: under;
+  border-bottom: 1px solid #8e9294;
 `;
 
 export default MypageView;
