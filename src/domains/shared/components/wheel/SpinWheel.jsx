@@ -3,6 +3,9 @@ import styled from "@emotion/styled";
 import { useEffect, useRef, useState } from "react";
 import Wheel from "./index";
 
+const colors = ["red", "green", "blue", "black", "skyblue", "gray", "purple"];
+const degreesPerColor = 360 / colors.length;
+
 const spin = keyframes`
   0% {
     transform:  rotate(0deg);
@@ -86,6 +89,15 @@ export default function SpinWheel() {
     setDragActive(false);
   };
 
+  const handleLeave = () => {
+    if (dragActive) {
+      setDragActive(false);
+    }
+    if (rotateActive) {
+      setRotateActive(false);
+    }
+  };
+
   const handleRotateStart = (e) => {
     e.preventDefault();
     const { top, left, height, width } =
@@ -110,12 +122,19 @@ export default function SpinWheel() {
       const rotationAmount = currentAngle - angle;
       setRotation((prevRotation) => prevRotation + rotationAmount);
       setAngle(currentAngle);
+
+      let adjustedRotation = rotation % 360;
+      adjustedRotation = 360 - adjustedRotation;
+      const colorIndex =
+        Math.floor(adjustedRotation / degreesPerColor) % colors.length;
+      const topColor = colors[colorIndex];
+      console.log("Top color is", topColor);
     }
   };
 
   const handleRotateStop = () => {
     setAngle((prevAngle) => prevAngle + rotation);
-    setRotation(0);
+    // setRotation(0);
     setRotateActive(false);
   };
 
@@ -125,7 +144,7 @@ export default function SpinWheel() {
       onMouseDown={handleRotateStart}
       onMouseMove={handleRotateMove}
       onMouseUp={handleRotateStop}
-      // onleave 하면 꺼지게 하기
+      onMouseLeave={handleLeave}
     >
       <div
         id="draggable"
@@ -139,21 +158,7 @@ export default function SpinWheel() {
         onMouseMove={handleDragMove}
         onMouseUp={handleDragStop}
       >
-        <Wheel
-          lineWeight={2}
-          colors={[
-            "red",
-            "green",
-            "blue",
-            "black",
-            "white",
-            "skyblue",
-            "gray",
-            "purple",
-            "pink",
-            "brown",
-          ]}
-        />
+        <Wheel lineWeight={2} colors={colors} />
       </div>
     </SpinnedCircle>
   );
