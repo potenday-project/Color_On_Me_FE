@@ -89,6 +89,8 @@ const homeContainer = css`
 const logoPosition = css`
   position: absolute;
   top: 15%;
+  width: 26vh;
+  height: 26vh;
 `;
 
 const inputStyle = css`

@@ -1,6 +1,7 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useRef, useState } from "react";
+import { debounce } from "lodash";
 import Wheel from "./index";
 
 const colors = ["red", "green", "blue", "black", "skyblue", "gray", "purple"];
@@ -22,7 +23,7 @@ const SpinnedCircle = styled.div`
   touch-action: none;
 `;
 
-export default function SpinWheel() {
+export default function SpinWheel({ handleColorChange }) {
   const draggableRef = useRef(null);
   const rotateRef = useRef(null);
   const [dragActive, setDragActive] = useState(false);
@@ -31,6 +32,11 @@ export default function SpinWheel() {
   const [angle, setAngle] = useState(0);
   const [rotation, setRotation] = useState(0);
   const R2D = 180 / Math.PI;
+
+  const debouncedHandleColorChange = debounce((color) => {
+    handleColorChange(color);
+    console.log("Top color is", color);
+  }, 500);
 
   const handleDragStart = (e) => {
     // e.preventDefault();
@@ -165,7 +171,9 @@ export default function SpinWheel() {
       const colorIndex =
         Math.floor(adjustedRotation / degreesPerColor) % colors.length;
       const topColor = colors[colorIndex];
-      console.log("Top color is", topColor);
+
+      debouncedHandleColorChange(topColor);
+      // console.log("Top color is", topColor);
     }
   };
 

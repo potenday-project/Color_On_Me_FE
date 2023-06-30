@@ -2,22 +2,30 @@ import Image from "next/image";
 import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 import client from "@/domains/shared/api/client";
+import MainLogo from "@/domains/shared/components/MainLogo";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const responseUser = await client.get("users");
-      setUser(responseUser);
-    };
-
-    fetchUser();
+    // const fetchUser = async () => {
+    //   const responseUser = await client.get("users");
+    //   setUser(responseUser);
+    // };
+    // fetchUser();
   }, []);
 
   return (
     <div css={container}>
-      <Image
+      <div
+        css={css`
+          width: 58px;
+          height: 58px;
+        `}
+      >
+        <MainLogo />
+      </div>
+      {/* <Image
         css={imageStyles}
         src={
           user?.profileImageUrl ? user?.profileImageUrl : "/images/profile.png"
@@ -25,7 +33,7 @@ const Profile = () => {
         alt="logo"
         width={58}
         height={58}
-      />
+      /> */}
       <div>
         <div css={nameStyles}>{user?.name ? user?.name : "맹꽁이"}</div>
         <div css={emailStyles}>
