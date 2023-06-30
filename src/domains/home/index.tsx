@@ -10,6 +10,7 @@ import { useIsShown } from "../shared/hooks/useIsShown";
 import SpinWheel from "../shared/components/wheel/SpinWheel";
 import { usePersonalColor } from "../shared/query/personal-color/color.queries";
 import MainLogo from "../shared/components/MainLogo";
+import SelectIcon from "public/icons/select.svg";
 
 const HomePage = () => {
   const [isShown, onOpen, onClose] = useIsShown();
@@ -60,10 +61,9 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div css={personalColorContainer}>
-          <TitleText underline onClick={onOpen}>
-            여름 쿨 뮤트
-          </TitleText>
+        <div css={personalColorContainer} onClick={onOpen}>
+          <TitleText onClick={onOpen}>여름 쿨 뮤트</TitleText>
+          <SelectIcon />
         </div>
         <div css={moodTagContainer}>
           <div css={moodTag}>#차분한</div>
@@ -171,6 +171,10 @@ const rgbText = css`
 const personalColorContainer = css`
   margin-top: 22px;
   margin-left: 5%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
 `;
 
 const moodTagContainer = css`
@@ -231,15 +235,7 @@ const wheelContainer = css`
     /* 아이폰 6/7/8 Plus, Galaxy S8/S9/S10 */
     width: 330px;
     height: 330px;
-    bottom: -10%;
-    right: -20%;
-  }
-
-  @media (min-height: 668px) and (max-height: 736px) {
-    /* 아이폰 6/7/8 Plus, Galaxy S8/S9/S10 */
-    width: 330px;
-    height: 330px;
-    bottom: -10%;
+    bottom: -22%;
     right: -20%;
   }
 
@@ -281,6 +277,14 @@ const logoContainer = css`
   position: absolute;
   top: 35%;
   left: 35%;
+
+  @media (max-width: 668px) and (max-height: 736px) {
+    /* 아이폰 6/7/8 Plus, Galaxy S8/S9/S10 */
+    width: 100px;
+    height: 100px;
+    top: 30%;
+    left: 35%;
+  }
 `;
 
 export default HomePage;
