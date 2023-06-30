@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Wheel from "./index";
 
 const colors = ["red", "green", "blue", "black", "skyblue", "gray", "purple"];
@@ -15,17 +15,12 @@ const spin = keyframes`
   }
 `;
 
-// const SpinnedCircle = styled.div`
-//   width: 100px;
-//   height: 100px;
-//   cursor: pointer;
-//   /* animation: ${spin} 5s linear infinite; */
-// `;
-
 const SpinnedCircle = styled.div`
   width: 100px;
   height: 100px;
   cursor: pointer;
+  touch-action: none;
+
   /* animation: ${spin} 5s linear infinite; */
   /* transform: ${({ rotation }) => `rotate(${rotation}deg)`}; */
 `;
@@ -41,8 +36,17 @@ export default function SpinWheel() {
   const R2D = 180 / Math.PI;
 
   const handleDragStart = (e) => {
-    e.preventDefault();
-    const { clientX, clientY } = e;
+    // e.preventDefault();
+    let clientX, clientY;
+
+    if (e.type === "touchstart") {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
     const { left, top } = draggableRef.current.getBoundingClientRect();
     const offsetX = clientX - left;
     const offsetY = clientY - top;
@@ -51,7 +55,17 @@ export default function SpinWheel() {
   };
 
   const handleDragMove = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    let clientX, clientY;
+
+    if (e.type === "touchmove") {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
     if (dragActive) {
       const { clientX, clientY } = e;
       const { left: draggableLeft, top: draggableTop } =
@@ -99,10 +113,19 @@ export default function SpinWheel() {
   };
 
   const handleRotateStart = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    let clientX, clientY;
+
+    if (e.type === "touchstart") {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
     const { top, left, height, width } =
       rotateRef.current.getBoundingClientRect();
-    const { clientX, clientY } = e;
     const x = clientX - (left + width / 2);
     const y = clientY - (top + height / 2);
     const startAngle = R2D * Math.atan2(y, x);
@@ -111,11 +134,20 @@ export default function SpinWheel() {
   };
 
   const handleRotateMove = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    let clientX, clientY;
+
+    if (e.type === "touchmove") {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
     if (rotateActive) {
       const { top, left, height, width } =
         rotateRef.current.getBoundingClientRect();
-      const { clientX, clientY } = e;
       const x = clientX - (left + width / 2);
       const y = clientY - (top + height / 2);
       const currentAngle = R2D * Math.atan2(y, x);
@@ -145,6 +177,9 @@ export default function SpinWheel() {
       onMouseMove={handleRotateMove}
       onMouseUp={handleRotateStop}
       onMouseLeave={handleLeave}
+      onTouchStart={handleRotateStart}
+      onTouchMove={handleRotateMove}
+      onTouchEnd={handleRotateStop}
     >
       <div
         id="draggable"
@@ -152,11 +187,14 @@ export default function SpinWheel() {
         style={{
           width: "100%",
           height: "100%",
-          transform: `rotate(${rotation}deg)`, // Apply rotation here
+          transform: `rotate(${rotation}deg)`,
         }}
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragStop}
+        onTouchStart={handleDragStart}
+        onTouchMove={handleDragMove}
+        onTouchEnd={handleDragStop}
       >
         <Wheel lineWeight={2} colors={colors} />
       </div>
