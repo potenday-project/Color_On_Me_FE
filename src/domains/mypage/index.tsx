@@ -44,9 +44,7 @@ const MypageView = () => {
   return (
     <DefaultLayout header={<Header>{headerText}</Header>}>
       <div css={mainContainer}>
-        <div css={profileContainer}>
-          <Profile />
-        </div>
+        <div css={profileContainer}>{/* <Profile /> */}</div>
         <div css={titleContainer}>
           <TitleText>여름 쿨 뮤트</TitleText>
         </div>

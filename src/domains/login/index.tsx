@@ -1,18 +1,68 @@
 import { css } from "@emotion/react";
-import LoginWithNaver from "./LoginWithNaver";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 import MainLogo from "../shared/components/MainLogo";
 import CenteredLayout from "../shared/components/layout/CenteredLayout";
+import Button from "../shared/components/Button";
+import { useLogin } from "../shared/query/auth/auth.queries";
 
 const LoginPage = () => {
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate: loginMutate } = useLogin();
+
+  const onSubmit = (data: any) => {
+    loginMutate(data, {
+      onSuccess: () => {
+        router.push("/");
+      },
+    });
+  };
+
   return (
     <CenteredLayout>
       <main css={homeContainer}>
         <div css={logoPosition}>
           <MainLogo />
         </div>
-        <div css={loginPosition}>
-          <LoginWithNaver />
-        </div>
+        <form css={loginPosition} onSubmit={handleSubmit(onSubmit)}>
+          <div css={inputContainer}>
+            <input
+              css={inputStyle}
+              type="text"
+              placeholder="이메일"
+              {...register("email")}
+            />
+            <input
+              css={inputStyle}
+              type="password"
+              placeholder="비밀번호"
+              {...register("password")}
+            />
+          </div>
+          <div css={errorStyle}>
+            {/* 이메일 또는 비밀번호를 잘못 입력했습니다. <br />
+            입력하신 내용을 다시 확인해 주세요. */}
+          </div>
+          <Button variant="colored">로그인</Button>
+          <div css={signupMessage}>
+            컬러온미가 처음이신가요?
+            <button
+              css={signupStyle}
+              onClick={() => {
+                router.push("/signup");
+              }}
+            >
+              회원가입
+            </button>
+          </div>
+        </form>
       </main>
     </CenteredLayout>
   );
@@ -38,13 +88,82 @@ const homeContainer = css`
 
 const logoPosition = css`
   position: absolute;
-  top: 20%;
+  top: 15%;
+`;
+
+const inputStyle = css`
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  background: #fff;
+  border: none;
+  padding: 0 28px;
+  color: #000;
+  font-size: 14px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #8e9294;
+  }
 `;
 
 const loginPosition = css`
   width: 70%;
   position: absolute;
-  bottom: 19%;
+  bottom: 24%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const inputContainer = css`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+`;
+
+const errorStyle = css`
+  color: #e10000;
+  font-size: 10px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const signupCommonStyle = css`
+  color: #2e2e2e;
+  font-size: 10px;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 13px;
+`;
+
+const signupMessage = css`
+  ${signupCommonStyle}
+  margin-top: 16px;
+`;
+
+const signupStyle = css`
+  ${signupCommonStyle}
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-position: under;
+  margin-left: 5px;
 `;
 
 export default LoginPage;
