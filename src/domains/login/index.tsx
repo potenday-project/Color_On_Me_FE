@@ -119,7 +119,7 @@ const inputStyle = css`
 const loginPosition = css`
   width: 70%;
   position: absolute;
-  bottom: 24%;
+  bottom: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
