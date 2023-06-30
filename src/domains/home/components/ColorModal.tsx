@@ -25,6 +25,7 @@ const customStyles = {
     backdropFilter: "blur(2px)",
     maxWidth: "600px",
     margin: "0 auto",
+    zIndex: "2",
   },
 };
 

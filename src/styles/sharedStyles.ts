@@ -13,6 +13,6 @@ export const centeredStyle = css`
 `;
 
 export const mobileStyle = css`
-  max-width: 600px;
+  max-width: 520px;
   margin: 0 auto;
 `;

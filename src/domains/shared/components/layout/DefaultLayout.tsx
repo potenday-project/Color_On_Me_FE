@@ -42,15 +42,22 @@ const DefaultLayout = (
     <div css={mainContainer} ref={ref} {...args}>
       {header && <header>{header}</header>}
       <main css={[layoutMainStyle]}>{children}</main>
-      <Navigation />
+      <div css={navigationContainer}>
+        <Navigation />
+      </div>
     </div>
   );
 };
 
 const mainContainer = css`
   height: 100%;
-  max-width: 600px;
+  max-width: 520px;
   margin: 0 auto;
+`;
+
+const navigationContainer = css`
+  position: relative;
+  z-index: 1;
 `;
 
 export default forwardRef(DefaultLayout);

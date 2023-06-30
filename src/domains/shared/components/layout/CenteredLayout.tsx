@@ -20,7 +20,7 @@ const mainContainer = css`
   width: 100%;
   min-height: 100vh;
   max-height: fit-content;
-  max-width: 600px;
+  max-width: 520px;
   margin: 0 auto;
 `;
 
