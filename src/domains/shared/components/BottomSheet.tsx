@@ -24,18 +24,20 @@ const BottomSheet = ({ isOpen, close, handleClick }: BottomSheetProps) => {
       <Sheet.Container>
         <Sheet.Header />
         <Sheet.Content css={contentStyle}>
-          {FLATTENED_PERSONAL_COLOR.map((color) => (
-            <button
-              key={color}
-              css={colorButton}
-              onClick={() => handleClick(color)}
-            >
-              {color}
-            </button>
-          ))}
+          <Sheet.Scroller>
+            {FLATTENED_PERSONAL_COLOR.map((color) => (
+              <button
+                key={color}
+                css={colorButton}
+                onClick={() => handleClick(color)}
+              >
+                {color}
+              </button>
+            ))}
+          </Sheet.Scroller>
         </Sheet.Content>
       </Sheet.Container>
-      <Sheet.Backdrop />
+      <Sheet.Backdrop onTap={close} />
     </Sheet>
   );
 };
@@ -50,7 +52,7 @@ const contentStyle = css`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  /* overflow: auto; */
 `;
 
 const colorButton = css`
