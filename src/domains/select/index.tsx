@@ -46,23 +46,25 @@ const SelectPage = () => {
           <div css={gridStyle}>
             {Object.entries(PERSONAL_COLOR).map(([season, colors]) => (
               <div key={season} css={columnStyle}>
-                {colors?.map((color) => (
+                {colors?.map(({ name, color, fontColor }) => (
                   <button
-                    key={color}
+                    key={name}
                     css={css`
                       ${colorButton};
                       background: ${selectedColor === color
-                        ? "#C9C9C9"
+                        ? color
                         : "#f4f4f4"};
+                      color: ${selectedColor === color ? fontColor : "#000"};
                     `}
                     onClick={() => handleColorSelection(color)}
                   >
-                    {color}
+                    {name}
                   </button>
                 ))}
               </div>
             ))}
           </div>
+
           {isShown && <div css={alertModal}>퍼스널 컬러를 선택해주세요</div>}
         </div>
         <button css={startButtonStyle} onClick={handleClickStartButton}>
