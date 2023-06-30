@@ -1,9 +1,11 @@
 import Modal from "react-modal";
 import { css } from "@emotion/css";
+import Image from "next/image";
 
 type ColorModalProps = {
   modalIsOpen: boolean;
   closeModal: () => void;
+  color: string;
 };
 
 const customStyles = {
@@ -29,7 +31,7 @@ const customStyles = {
   },
 };
 
-const ColorModal = ({ modalIsOpen, closeModal }: ColorModalProps) => {
+const ColorModal = ({ modalIsOpen, closeModal, color }: ColorModalProps) => {
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -39,14 +41,25 @@ const ColorModal = ({ modalIsOpen, closeModal }: ColorModalProps) => {
       contentLabel="Example Modal"
     >
       <div css={mainContainer}>
-        <div css={colorContainer} />
+        <div
+          css={css`
+            width: 100%;
+            height: 85%;
+            background: ${color};
+          `}
+        />
         <div css={textContainer}>
           <div css={colorText}>Sky Blue</div>
           <div css={rgbText}>R : 117 G : 160 B : 200</div>
         </div>
-        <div css={closeButton} onClick={closeModal}>
-          x
-        </div>
+        <Image
+          src="/images/close.png"
+          alt="closeButton"
+          width={27}
+          height={27}
+          css={closeButton}
+          onClick={closeModal}
+        />
       </div>
     </Modal>
   );
@@ -63,6 +76,7 @@ const closeButton = css`
   position: absolute;
   top: 14px;
   right: 11px;
+  cursor: pointer;
 `;
 
 const colorContainer = css`

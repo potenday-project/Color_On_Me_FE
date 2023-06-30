@@ -8,11 +8,18 @@ import TitleText from "../shared/components/TitleText";
 import BottomSheet from "../shared/components/BottomSheet";
 import { useIsShown } from "../shared/hooks/useIsShown";
 import SpinWheel from "../shared/components/wheel/SpinWheel";
+import { usePersonalColor } from "../shared/query/personal-color/color.queries";
+import MainLogo from "../shared/components/MainLogo";
 
 const HomePage = () => {
   const [isShown, onOpen, onClose] = useIsShown();
 
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [currentColor, setCurrentColor] = useState<string>("red");
+
+  const handleColorChange = (color: string) => {
+    setCurrentColor(color);
+  };
 
   function openModal() {
     if (!isShown) {
@@ -31,11 +38,22 @@ const HomePage = () => {
     close();
   };
 
+  // 사용자의 퍼스널 컬러 요청 후 그 컬러로 요청하기
+
+  // const { data, isLoading } = usePersonalColor("SW_LG");
+
   return (
     <DefaultLayout header={<MainHeader />}>
       <div css={mainContainer}>
         <div css={containerStyle}>
-          <div css={colorContainer} onClick={openModal} />
+          <div
+            css={css`
+              width: 100%;
+              height: 100%;
+              background: ${currentColor};
+            `}
+            onClick={openModal}
+          />
           <div css={textContainer}>
             <div css={colorText}>Sky Blue</div>
             <div css={rgbText}>R : 117 G : 160 B : 200</div>
@@ -60,7 +78,11 @@ const HomePage = () => {
             handleClick={handleColorSelection}
           />
         )}
-        <ColorModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
+        <ColorModal
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          color={currentColor}
+        />
 
         <div css={wheelContainer}>
           <div css={imageContainer}>
@@ -72,7 +94,10 @@ const HomePage = () => {
             />
           </div>
           <div css={wheelRotation}>
-            <SpinWheel />
+            <SpinWheel handleColorChange={handleColorChange} />
+          </div>
+          <div css={logoContainer}>
+            <MainLogo />
           </div>
         </div>
       </div>
@@ -82,7 +107,6 @@ const HomePage = () => {
 
 const mainContainer = css`
   width: 100%;
-
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -248,6 +272,15 @@ const wheelRotation = css`
   width: 100%;
   height: 100%;
   transform: rotate(-20deg);
+`;
+
+const logoContainer = css`
+  width: 120px;
+  height: 120px;
+  z-index: 2;
+  position: absolute;
+  top: 35%;
+  left: 35%;
 `;
 
 export default HomePage;

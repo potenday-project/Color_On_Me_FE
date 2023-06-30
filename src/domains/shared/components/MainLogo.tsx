@@ -29,8 +29,8 @@ const MainLogo = () => {
 
 const mainLogoContainer = css`
   position: relative;
-  width: 26vh;
-  height: 26vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
