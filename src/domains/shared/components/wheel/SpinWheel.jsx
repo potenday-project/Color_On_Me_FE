@@ -16,13 +16,10 @@ const spin = keyframes`
 `;
 
 const SpinnedCircle = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   touch-action: none;
-
-  /* animation: ${spin} 5s linear infinite; */
-  /* transform: ${({ rotation }) => `rotate(${rotation}deg)`}; */
 `;
 
 export default function SpinWheel() {
@@ -155,8 +152,16 @@ export default function SpinWheel() {
       setRotation((prevRotation) => prevRotation + rotationAmount);
       setAngle(currentAngle);
 
+      // let adjustedRotation = rotation % 360;
+      // adjustedRotation = 360 - adjustedRotation;
+      // const colorIndex =
+      //   Math.floor(adjustedRotation / degreesPerColor) % colors.length;
+      // const topColor = colors[colorIndex];
+      // console.log("Top color is", topColor);
+
       let adjustedRotation = rotation % 360;
-      adjustedRotation = 360 - adjustedRotation;
+      adjustedRotation = 360 - adjustedRotation + 20;
+      if (adjustedRotation < 0) adjustedRotation += 360;
       const colorIndex =
         Math.floor(adjustedRotation / degreesPerColor) % colors.length;
       const topColor = colors[colorIndex];
@@ -196,7 +201,7 @@ export default function SpinWheel() {
         onTouchMove={handleDragMove}
         onTouchEnd={handleDragStop}
       >
-        <Wheel lineWeight={2} colors={colors} />
+        <Wheel lineWeight={4} colors={colors} />
       </div>
     </SpinnedCircle>
   );
