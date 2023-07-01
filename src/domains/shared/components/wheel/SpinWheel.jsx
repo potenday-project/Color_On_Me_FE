@@ -36,7 +36,7 @@ export default function SpinWheel({ colors, handleColorChange }) {
 
   const debouncedHandleColorChange = debounce((color) => {
     handleColorChange(color);
-    console.log("Top color is", color);
+    // console.log("Top color is", color);
   }, 500);
 
   const handleDragStart = (e) => {
