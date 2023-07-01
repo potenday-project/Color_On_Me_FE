@@ -1,11 +1,16 @@
 import Modal from "react-modal";
 import { css } from "@emotion/css";
 import Image from "next/image";
+import { parseRGB } from "@/domains/shared/utils/parseRGB";
 
 type ColorModalProps = {
   modalIsOpen: boolean;
   closeModal: () => void;
   color: string;
+  currentColor: {
+    rgb: string;
+    name: string;
+  };
 };
 
 const customStyles = {
@@ -31,7 +36,12 @@ const customStyles = {
   },
 };
 
-const ColorModal = ({ modalIsOpen, closeModal, color }: ColorModalProps) => {
+const ColorModal = ({
+  modalIsOpen,
+  closeModal,
+  color,
+  currentColor,
+}: ColorModalProps) => {
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -49,8 +59,8 @@ const ColorModal = ({ modalIsOpen, closeModal, color }: ColorModalProps) => {
           `}
         />
         <div css={textContainer}>
-          <div css={colorText}>Sky Blue</div>
-          <div css={rgbText}>R : 117 G : 160 B : 200</div>
+          <div css={colorText}>{currentColor.name}</div>
+          <div css={rgbText}>{parseRGB(currentColor.rgb)}</div>
         </div>
         <Image
           src="/images/close.png"

@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 import { debounce } from "lodash";
 import Wheel from "./index";
 
-const colors = ["red", "green", "blue", "black", "skyblue", "gray", "purple"];
-const degreesPerColor = 360 / colors.length;
+// const colors = ["red", "green", "blue", "black", "skyblue", "gray", "purple"];
 
 const spin = keyframes`
   0% {
@@ -23,7 +22,9 @@ const SpinnedCircle = styled.div`
   touch-action: none;
 `;
 
-export default function SpinWheel({ handleColorChange }) {
+export default function SpinWheel({ colors, handleColorChange }) {
+  const degreesPerColor = 360 / colors.length;
+
   const draggableRef = useRef(null);
   const rotateRef = useRef(null);
   const [dragActive, setDragActive] = useState(false);

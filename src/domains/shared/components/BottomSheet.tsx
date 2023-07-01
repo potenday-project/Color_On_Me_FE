@@ -1,13 +1,13 @@
 import { ButtonHTMLAttributes, useState } from "react";
 import { css } from "@emotion/css";
 import Sheet from "react-modal-sheet";
-import { FLATTENED_PERSONAL_COLOR } from "../constants/constants";
+import { PERSONAL_COLOR_MAPPING } from "../constants/constants";
 import { mobileStyle } from "@/styles/sharedStyles";
 
 interface BottomSheetProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isOpen: boolean;
   close: () => void;
-  handleClick: (color: string) => void;
+  handleClick: (color: string, colorName: string) => void;
 }
 
 const BottomSheet = ({ isOpen, close, handleClick }: BottomSheetProps) => {
@@ -25,15 +25,17 @@ const BottomSheet = ({ isOpen, close, handleClick }: BottomSheetProps) => {
         <Sheet.Header />
         <Sheet.Content css={contentStyle}>
           <Sheet.Scroller>
-            {FLATTENED_PERSONAL_COLOR.map((color) => (
-              <button
-                key={color}
-                css={colorButton}
-                onClick={() => handleClick(color)}
-              >
-                {color}
-              </button>
-            ))}
+            {Object.entries(PERSONAL_COLOR_MAPPING).map(
+              ([colorName, colorCode]) => (
+                <button
+                  key={colorName}
+                  css={colorButton}
+                  onClick={() => handleClick(colorCode, colorName)}
+                >
+                  {colorName}
+                </button>
+              )
+            )}
           </Sheet.Scroller>
         </Sheet.Content>
       </Sheet.Container>
