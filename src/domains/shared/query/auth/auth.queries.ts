@@ -21,3 +21,10 @@ export const useLogin = () => {
     mutationFn: (data) => AuthRepository.postLogin(data),
   });
 };
+
+export const useLogout = () => {
+  return useMutation({
+    mutationKey: ["logout"],
+    mutationFn: () => AuthRepository.getLogout(),
+  });
+};

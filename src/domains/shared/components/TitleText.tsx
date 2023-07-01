@@ -12,6 +12,7 @@ const TitleText = ({ children, underline, ...props }: UnderlinedTextProps) => {
       font-size: 24px;
       font-family: "Pretendard";
       color: #000;
+      width: fit-content;
       border-bottom: ${underline ? "1px solid black" : "none"};
     `;
   }, [underline]);

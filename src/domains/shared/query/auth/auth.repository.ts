@@ -19,6 +19,10 @@ class AuthRepository {
       ...data,
     });
   }
+
+  async getLogout() {
+    return client.get("auth/logout");
+  }
 }
 
 export default new AuthRepository();
