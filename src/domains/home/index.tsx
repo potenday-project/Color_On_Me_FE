@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import ColorModal from "./components/ColorModal";
 import DefaultLayout from "../shared/components/layout/DefaultLayout";
@@ -11,16 +11,31 @@ import SpinWheel from "../shared/components/wheel/SpinWheel";
 import { usePersonalColor } from "../shared/query/personal-color/color.queries";
 import MainLogo from "../shared/components/MainLogo";
 import SelectIcon from "public/icons/select.svg";
+import { useGetUser } from "../shared/query/user/user.queries";
+import { PERSONAL_COLOR_MAPPING } from "../shared/constants/constants";
+import { parseRGB } from "../shared/utils/parseRGB";
 
 const HomePage = () => {
+  const { data: userData, isLoading: userDataLoading } = useGetUser();
+
   const [isShown, onOpen, onClose] = useIsShown();
 
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [currentColor, setCurrentColor] = useState<string>("red");
 
-  const handleColorChange = (color: string) => {
-    setCurrentColor(color);
-  };
+  const [currentColor, setCurrentColor] = useState({
+    code: "",
+    name: "",
+  });
+  const [currentWheelColor, setCurrentWheelColor] = useState("");
+  const [currentWheelColorInfo, setCurrentWheelColorInfo] = useState({
+    name: "",
+    rgb: "",
+  });
+  const [wheelPropsColors, setWheelPropsColors] = useState(undefined);
+
+  const { data: colorData, isLoading: colorDataLoading } = usePersonalColor(
+    currentColor.code || "SW_LG"
+  );
 
   function openModal() {
     if (!isShown) {
@@ -32,16 +47,68 @@ const HomePage = () => {
     setIsOpen(false);
   }
 
-  const [selectedColor, setSelectedColor] = useState<string>("");
+  // 휠 컬러 변경에 따른 컬러 정보 변경
+  const handleColorChange = (rgbColor: string) => {
+    setCurrentWheelColor(rgbColor);
+    const colorInfo = colorData.colors.find(
+      (color: any) => `rgb(${color.r}, ${color.g}, ${color.b})` === rgbColor
+    );
 
-  const handleColorSelection = (color: string) => {
-    setSelectedColor(color);
-    close();
+    if (colorInfo) {
+      setCurrentWheelColorInfo({
+        name: colorInfo.name,
+        rgb: rgbColor,
+      });
+    }
   };
 
-  // 사용자의 퍼스널 컬러 요청 후 그 컬러로 요청하기
+  // 퍼스널 컬러 변경
+  const handleColorSelection = (colorCode: string, colorName: string) => {
+    setCurrentColor({
+      name: colorName,
+      code: colorCode,
+    });
+    onClose();
+  };
 
-  // const { data, isLoading } = usePersonalColor("SW_LG");
+  // 유저의 퍼스널 컬러 초기 세팅
+  useEffect(() => {
+    if (!userData) return;
+    setCurrentColor({
+      code: PERSONAL_COLOR_MAPPING[userData.personalColor],
+      name: userData.personalColor,
+    });
+  }, [userData]);
+
+  // 퍼스널 컬러에 따른 색상 초기 세팅
+  useEffect(() => {
+    if (!colorData) return;
+    const colors = colorData?.colors?.map(
+      (color: any) => `rgb(${color.r}, ${color.g}, ${color.b})`
+    );
+    setWheelPropsColors(colors);
+    setCurrentWheelColor(colors[0]);
+    setCurrentWheelColorInfo({
+      name: colorData.colors[0].name,
+      rgb: colors[0],
+    });
+  }, [colorData]);
+
+  if (userDataLoading || colorDataLoading) {
+    return (
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+        `}
+      >
+        loading...
+      </div>
+    );
+  }
 
   return (
     <DefaultLayout header={<MainHeader />}>
@@ -51,24 +118,27 @@ const HomePage = () => {
             css={css`
               width: 100%;
               height: 100%;
-              background: ${currentColor};
+              background: ${currentWheelColor};
             `}
             onClick={openModal}
           />
+
           <div css={textContainer}>
-            <div css={colorText}>Sky Blue</div>
-            <div css={rgbText}>R : 117 G : 160 B : 200</div>
+            <div css={colorText}>{currentWheelColorInfo.name}</div>
+            <div css={rgbText}>{parseRGB(currentWheelColorInfo.rgb)}</div>
           </div>
         </div>
 
         <div css={personalColorContainer} onClick={onOpen}>
-          <TitleText onClick={onOpen}>여름 쿨 뮤트</TitleText>
+          <TitleText onClick={onOpen}>{currentColor.name}</TitleText>
           <SelectIcon />
         </div>
         <div css={moodTagContainer}>
-          <div css={moodTag}>#차분한</div>
-          <div css={moodTag}>#지적인</div>
-          <div css={moodTag}>#잔잔한</div>
+          {colorData?.moods?.map((mood: any) => (
+            <div key={mood.name} css={moodTag}>
+              {mood.name}
+            </div>
+          ))}
         </div>
 
         {isShown && (
@@ -81,7 +151,8 @@ const HomePage = () => {
         <ColorModal
           modalIsOpen={modalIsOpen}
           closeModal={closeModal}
-          color={currentColor}
+          color={currentWheelColor}
+          currentColor={currentWheelColorInfo}
         />
 
         <div css={wheelContainer}>
@@ -94,7 +165,12 @@ const HomePage = () => {
             />
           </div>
           <div css={wheelRotation}>
-            <SpinWheel handleColorChange={handleColorChange} />
+            {wheelPropsColors && (
+              <SpinWheel
+                colors={wheelPropsColors}
+                handleColorChange={handleColorChange}
+              />
+            )}
           </div>
           <div css={logoContainer}>
             <MainLogo />

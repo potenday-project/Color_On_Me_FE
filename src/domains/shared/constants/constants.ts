@@ -35,4 +35,23 @@ export const FLATTENED_PERSONAL_COLOR = [
   "겨울 쿨 딥",
 ];
 
+type PersonalColorType = {
+  [key: string]: string;
+};
+
+export const PERSONAL_COLOR_MAPPING: PersonalColorType = {
+  "봄 웜 라이트": "SW_LG",
+  "봄 웜 클리어": "SW_CL",
+  "봄 웜 스트롱": "SW_ST",
+  "여름 쿨 라이트": "SC_LG",
+  "여름 쿨 클리어": "SC_CL",
+  "여름 쿨 뮤트": "SC_MT",
+  "가을 웜 뮤트": "FW_MT",
+  "가을 웜 트루": "FW_TR",
+  "가을 웜 딥": "FW_DP",
+  "겨울 쿨 스트롱": "WC_ST",
+  "겨울 쿨 트루": "WC_TR",
+  "겨울 쿨 딥": "WC_DP",
+};
+
 export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
