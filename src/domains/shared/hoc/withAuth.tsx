@@ -19,14 +19,9 @@ const withAuth = (
         setIsLoading(true);
         try {
           const responseUser = await client.get("auth/user/me");
-
-          if (responseUser.status === 401) {
-            router.replace("/login");
-            return;
-          }
-
           const responseAttributes = await client.get("users");
-          const { personalColor } = responseAttributes.data;
+
+          const { personalColor } = responseAttributes;
 
           if (!personalColor) {
             router.replace("/personalcolor/select");
