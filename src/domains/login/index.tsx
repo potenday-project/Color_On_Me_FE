@@ -1,13 +1,15 @@
+import { useState } from "react";
 import { css } from "@emotion/react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useLogin } from "../shared/query/auth/auth.queries";
 import MainLogo from "../shared/components/MainLogo";
 import CenteredLayout from "../shared/components/layout/CenteredLayout";
 import Button from "../shared/components/Button";
-import { useLogin } from "../shared/query/auth/auth.queries";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [loginError, setLoginError] = useState<JSX.Element | null>(null);
 
   const {
     register,
@@ -22,8 +24,21 @@ const LoginPage = () => {
       onSuccess: () => {
         router.push("/");
       },
+      onError: () => {
+        setLoginError(
+          <span>
+            이메일 또는 비밀번호를 잘못 입력했습니다.
+            <br />
+            입력하신 내용을 다시 확인해 주세요.
+          </span>
+        );
+      },
     });
   };
+
+  const isEmailError = errors?.email;
+  const isPasswordError = !errors?.email && errors?.password;
+  const isCredentialError = !errors.email && !errors.password;
 
   return (
     <CenteredLayout>
@@ -37,18 +52,21 @@ const LoginPage = () => {
               css={inputStyle}
               type="text"
               placeholder="이메일"
-              {...register("email")}
+              {...register("email", { required: true })}
             />
             <input
               css={inputStyle}
               type="password"
               placeholder="비밀번호"
-              {...register("password")}
+              {...register("password", {
+                required: true,
+              })}
             />
           </div>
           <div css={errorStyle}>
-            {/* 이메일 또는 비밀번호를 잘못 입력했습니다. <br />
-            입력하신 내용을 다시 확인해 주세요. */}
+            {isEmailError && <span>이메일을 입력해주세요.</span>}
+            {isPasswordError && <span>비밀번호를 입력해주세요.</span>}
+            {isCredentialError && loginError}
           </div>
           <Button variant="colored">로그인</Button>
           <div css={signupMessage}>
