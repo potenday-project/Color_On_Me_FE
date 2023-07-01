@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { css } from "@emotion/react";
 import { PERSONAL_COLOR } from "../shared/constants/constants";
 import { useIsShown } from "../shared/hooks/useIsShown";
 import CenteredLayout from "../shared/components/layout/CenteredLayout";
+import { usePostUser } from "../shared/query/user/user.queries";
 
 const SelectPage = () => {
+  const router = useRouter();
+
   const [isShown, onOpen, onClose] = useIsShown();
   const [selectedColor, setSelectedColor] = useState<string>("");
+
+  const { mutate: selectMutate } = usePostUser();
 
   const handleColorSelection = (color: string) => {
     setSelectedColor(color);
@@ -15,7 +21,13 @@ const SelectPage = () => {
   const handleClickStartButton = () => {
     if (!selectedColor) {
       onOpen();
+      return;
     }
+    selectMutate(selectedColor, {
+      onSuccess: () => {
+        router.push("/");
+      },
+    });
   };
 
   useEffect(() => {
@@ -51,12 +63,10 @@ const SelectPage = () => {
                     key={name}
                     css={css`
                       ${colorButton};
-                      background: ${selectedColor === color
-                        ? color
-                        : "#f4f4f4"};
-                      color: ${selectedColor === color ? fontColor : "#000"};
+                      background: ${selectedColor === name ? color : "#f4f4f4"};
+                      color: ${selectedColor === name ? fontColor : "#000"};
                     `}
-                    onClick={() => handleColorSelection(color)}
+                    onClick={() => handleColorSelection(name)}
                   >
                     {name}
                   </button>
