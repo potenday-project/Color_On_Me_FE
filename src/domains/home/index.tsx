@@ -88,10 +88,16 @@ const HomePage = () => {
     );
     setWheelPropsColors(colors);
     setCurrentWheelColor(colors[0]);
-    setCurrentWheelColorInfo({
-      name: colorData?.colors[0].name,
-      rgb: colors[0],
-    });
+    // setCurrentWheelColorInfo({
+    //   name: colorData?.colors[0].name,
+    //   rgb: colors[0],
+    // });
+    if (colorData?.colors?.length > 0) {
+      setCurrentWheelColorInfo({
+        name: colorData.colors[0].name,
+        rgb: colors[0],
+      });
+    }
   }, [colorData]);
 
   if (userDataLoading) {
