@@ -5,6 +5,7 @@ import { CacheProvider } from "@emotion/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import GlobalStyle from "@/styles/GlobalStyle";
+import Head from "next/head";
 
 declare global {
   interface Window {
@@ -20,6 +21,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <CacheProvider value={cache}>
           <GlobalStyle />
+          <Head>
+            <title>coloronme</title>
+          </Head>
           <Component {...pageProps} />
           <ReactQueryDevtools initialIsOpen={false} />
         </CacheProvider>
