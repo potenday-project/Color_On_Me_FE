@@ -114,12 +114,16 @@ const MypageView = () => {
           ))}
         </div>
 
-        <div css={tagContainer}>
+        {/* <div css={tagContainer}>
           {colorData?.moods?.map((mood: any) => (
             <Tag key={mood.name}>{mood.name}</Tag>
           ))}
+        </div> */}
+        <div css={tagContainer}>
+          {(colorData?.moods || []).map((mood: any, index: number) => (
+            <Tag key={index}>{mood ? mood.name : "#청순한"}</Tag>
+          ))}
         </div>
-
         {isEdit ? (
           <div
             css={css`
