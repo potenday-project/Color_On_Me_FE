@@ -124,13 +124,13 @@ const SignUpPage = () => {
           <input
             css={inputStyle}
             type="password"
-            placeholder="숫자, 특수문자 포함 8~20자 입력"
+            placeholder="영문, 숫자, 특수문자 포함 8~20자 입력"
             {...register("password", {
               required: true,
               pattern: {
                 value: passwordRegex,
                 message:
-                  "※ 비밀번호는 숫자, 특수문자 포함 8~20자로 입력해주세요.",
+                  "※ 비밀번호는 영문, 숫자, 특수문자 포함 8~20자로 입력해주세요.",
               },
             })}
           />
