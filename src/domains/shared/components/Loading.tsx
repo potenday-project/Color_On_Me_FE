@@ -9,6 +9,7 @@ const Loading = () => {
         alt="pontLogo"
         width={200}
         height={75}
+        priority
       />
       <div css={loadingText}>Loading</div>
     </div>
