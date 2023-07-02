@@ -14,6 +14,9 @@ import SelectIcon from "public/icons/select.svg";
 import { useGetUser } from "../shared/query/user/user.queries";
 import { PERSONAL_COLOR_MAPPING } from "../shared/constants/constants";
 import { parseRGB } from "../shared/utils/parseRGB";
+import Tag from "../shared/components/Tag";
+
+const moods = ["#청순한", "#은은한", "가벼운"];
 
 const HomePage = () => {
   const { data: userData, isLoading: userDataLoading } = useGetUser();
@@ -137,10 +140,13 @@ const HomePage = () => {
           <SelectIcon />
         </div>
         <div css={moodTagContainer}>
-          {colorData?.moods?.map((mood: any) => (
+          {/* {colorData?.moods?.map((mood: any) => (
             <div key={mood.name} css={moodTag}>
               {mood.name}
             </div>
+          ))} */}
+          {(colorData?.moods || moods).map((mood: any, index: number) => (
+            <Tag key={index}>{mood ? mood.name : "#청순한"}</Tag>
           ))}
         </div>
 
