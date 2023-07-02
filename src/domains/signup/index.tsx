@@ -65,7 +65,7 @@ const SignUpPage = () => {
   };
 
   const passwordRegex =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
   const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
   return (
@@ -149,7 +149,7 @@ const SignUpPage = () => {
               pattern: {
                 value: passwordRegex,
                 message:
-                  "※ 비밀번호는 숫자, 특수문자 포함 8~20자로 입력해주세요.",
+                  "※ 비밀번호는 영문, 숫자, 특수문자 포함 8~20자로 입력해주세요.",
               },
               validate: {
                 check: (val) => {
