@@ -31,7 +31,7 @@ const HomePage = () => {
     name: "",
     rgb: "",
   });
-  const [wheelPropsColors, setWheelPropsColors] = useState(undefined);
+  const [wheelPropsColors, setWheelPropsColors] = useState("");
 
   const { data: colorData, isLoading: colorDataLoading } = usePersonalColor(
     currentColor.code
@@ -171,7 +171,7 @@ const HomePage = () => {
             />
           </div>
           <div css={wheelRotation}>
-            {wheelPropsColors && (
+            {wheelPropsColors?.length > 0 && (
               <SpinWheel
                 colors={wheelPropsColors}
                 handleColorChange={handleColorChange}
