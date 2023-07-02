@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { css } from "@emotion/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -15,9 +16,12 @@ const SignUpPage = () => {
   const { mutate: signUpMutate } = useSignUp();
   const { mutate: emailDuplicateMutate } = useEmailDuplicate();
 
+  const [emailDuplicate, setEmailDuplicate] = useState("");
+
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
     watch,
   } = useForm();
@@ -27,19 +31,42 @@ const SignUpPage = () => {
   const handleSignUpClick = () => {
     signUpMutate();
   };
-
   const handleEmailDuplicateClick = (e: any) => {
     e.preventDefault();
-    emailDuplicateMutate(email);
+    if (email === "") {
+      setEmailDuplicate("empty");
+    } else if (!emailRegex.test(email)) {
+      setEmailDuplicate("invalid");
+    } else {
+      emailDuplicateMutate(email, {
+        onSuccess: () => {
+          setEmailDuplicate("available");
+        },
+        onError: () => {
+          setEmailDuplicate("duplicated");
+        },
+      });
+    }
   };
 
   const onSubmit = (data: any) => {
+    if (email === "") {
+      setEmailDuplicate("empty");
+    } else if (!emailRegex.test(email)) {
+      setEmailDuplicate("invalid");
+    }
+    if (!emailDuplicate) return;
+
     signUpMutate(data, {
       onSuccess: () => {
         router.push("/login");
       },
     });
   };
+
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
   return (
     <CenteredLayout>
@@ -53,10 +80,22 @@ const SignUpPage = () => {
               type="text"
               placeholder="이메일 입력"
               autoFocus
-              {...register("email")}
+              {...register("email", { required: true, pattern: emailRegex })}
             />
-            <div css={errorStyle} />
-            {/* <div css={errorStyle}>※ 사용 가능한 이메일입니다.</div> */}
+            {(emailDuplicate === "empty" ||
+              errors.email?.type === "required") && (
+              <div css={errorStyle}>※ 이메일을 입력해주세요.</div>
+            )}
+
+            {emailDuplicate === "invalid" && (
+              <div css={errorStyle}>※ 유효한 이메일을 입력해주세요.</div>
+            )}
+            {emailDuplicate === "duplicated" && (
+              <div css={errorStyle}>※ 이미 존재하는 이메일입니다.</div>
+            )}
+            {emailDuplicate === "available" && (
+              <div css={successStyle}>※ 사용 가능한 이메일입니다.</div>
+            )}
           </div>
           <button css={duplicateButton} onClick={handleEmailDuplicateClick}>
             중복검사
@@ -68,11 +107,17 @@ const SignUpPage = () => {
             css={inputStyle}
             type="text"
             placeholder="2~8자 입력"
-            {...register("nickname")}
+            {...register("nickname", {
+              required: true,
+              minLength: 2,
+              maxLength: 8,
+            })}
           />
-          <div css={errorStyle} />
-
-          {/* <div css={errorStyle}>※ 닉네임은 2~8자로 입력해주세요.</div> */}
+          <div css={errorStyle}>
+            {errors.nickname && (
+              <div css={errorStyle}>※ 닉네임은 2~8자 사이로 입력해주세요.</div>
+            )}
+          </div>
         </div>
         <div css={inputContainer}>
           <div css={inputTitle}>비밀번호</div>
@@ -80,22 +125,70 @@ const SignUpPage = () => {
             css={inputStyle}
             type="password"
             placeholder="숫자, 특수문자 포함 8~20자 입력"
-            {...register("password")}
+            {...register("password", {
+              required: true,
+              pattern: {
+                value: passwordRegex,
+                message:
+                  "※ 비밀번호는 숫자, 특수문자 포함 8~20자로 입력해주세요.",
+              },
+            })}
           />
-          <div css={errorStyle} />
-          {/* 
-          <div css={errorStyle}>
-            ※ 비밀번호는 숫자, 특수문자 포함 8~20자로 입력해주세요.
-          </div> */}
+          {errors.password && (
+            <div css={errorStyle}>
+              ※ 비밀번호는 숫자, 특수문자 포함 8~20자로 입력해주세요.
+            </div>
+          )}
 
           <input
             css={[inputStyle, marginStyle]}
             type="password"
             placeholder="비밀번호 재입력"
-            {...register("passwordConfirm")}
+            {...register("passwordConfirm", {
+              required: "비밀번호는 필수 입력입니다.",
+              pattern: {
+                value: passwordRegex,
+                message:
+                  "※ 비밀번호는 숫자, 특수문자 포함 8~20자로 입력해주세요.",
+              },
+              validate: {
+                check: (val) => {
+                  if (getValues("password") !== val) {
+                    return "비밀번호가 일치하지 않습니다.";
+                  }
+                },
+              },
+            })}
           />
+
+          <div css={errorStyle}>
+            {errors.passwordConfirm && "※ 비밀번호가 일치하지 않습니다."}
+          </div>
           <div css={errorStyle} />
-          {/* <div css={errorStyle}>※ 비밀번호가 일치하지 않습니다.</div> */}
+        </div>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+          `}
+        >
+          <a
+            href="https://husky-justice-125.notion.site/6e6e8ba6d2af42f9beb859d9fd3fbfce"
+            target="_blank"
+            rel="noopener noreferrer"
+            css={linkButton}
+          >
+            개인정보 처리 방침
+          </a>
+          <a
+            href="https://husky-justice-125.notion.site/08c08f5bc9d64bef8f419ca5860b236b"
+            target="_blank"
+            rel="noopener noreferrer"
+            css={linkButton}
+          >
+            서비스 이용 약관
+          </a>
         </div>
         <div css={signUpContainer}>
           <Button type="submit" variant="colored" onClick={handleSignUpClick}>
@@ -106,6 +199,34 @@ const SignUpPage = () => {
     </CenteredLayout>
   );
 };
+
+const successStyle = css`
+  color: #005bc6;
+  font-size: 10px;
+  height: 15px;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+`;
+
+const errorStyle = css`
+  color: #e10000;
+  font-size: 10px;
+  height: 15px;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+`;
+
+const linkButton = css`
+  width: 100%;
+  color: #8e9294;
+  font-size: 12px;
+  font-family: "Pretendard";
+  width: fit-content;
+`;
 
 const marginStyle = css`
   margin-top: 30px;
@@ -182,16 +303,6 @@ const inputStyle = css`
 const signUpContainer = css`
   width: 80%;
   margin-top: 10%;
-`;
-
-const errorStyle = css`
-  color: #005bc6;
-  font-size: 10px;
-  height: 15px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 18px;
 `;
 
 export default SignUpPage;
