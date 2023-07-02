@@ -89,7 +89,7 @@ const HomePage = () => {
     setWheelPropsColors(colors);
     setCurrentWheelColor(colors[0]);
     setCurrentWheelColorInfo({
-      name: colorData.colors[0].name,
+      name: colorData?.colors[0].name,
       rgb: colors[0],
     });
   }, [colorData]);
