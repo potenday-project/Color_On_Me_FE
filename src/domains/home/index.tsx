@@ -15,6 +15,7 @@ import { useGetUser } from "../shared/query/user/user.queries";
 import { PERSONAL_COLOR_MAPPING } from "../shared/constants/constants";
 import { parseRGB } from "../shared/utils/parseRGB";
 import Tag from "../shared/components/Tag";
+import Loading from "../shared/components/Loading";
 
 const moods = ["#청순한", "#은은한", "가벼운"];
 
@@ -101,19 +102,7 @@ const HomePage = () => {
   }, [colorData]);
 
   if (userDataLoading) {
-    return (
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-        `}
-      >
-        loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
