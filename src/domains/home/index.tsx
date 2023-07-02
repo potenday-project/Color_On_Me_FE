@@ -34,7 +34,7 @@ const HomePage = () => {
   const [wheelPropsColors, setWheelPropsColors] = useState(undefined);
 
   const { data: colorData, isLoading: colorDataLoading } = usePersonalColor(
-    currentColor.code || "SW_LG"
+    currentColor.code
   );
 
   function openModal() {
@@ -50,7 +50,7 @@ const HomePage = () => {
   // 휠 컬러 변경에 따른 컬러 정보 변경
   const handleColorChange = (rgbColor: string) => {
     setCurrentWheelColor(rgbColor);
-    const colorInfo = colorData.colors.find(
+    const colorInfo = colorData?.colors?.find(
       (color: any) => `rgb(${color.r}, ${color.g}, ${color.b})` === rgbColor
     );
 
@@ -94,21 +94,21 @@ const HomePage = () => {
     });
   }, [colorData]);
 
-  if (userDataLoading || colorDataLoading) {
-    return (
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-        `}
-      >
-        loading...
-      </div>
-    );
-  }
+  // if (userDataLoading || colorDataLoading) {
+  //   return (
+  //     <div
+  //       css={css`
+  //         display: flex;
+  //         align-items: center;
+  //         justify-content: center;
+  //         width: 100%;
+  //         height: 100%;
+  //       `}
+  //     >
+  //       loading...
+  //     </div>
+  //   );
+  // }
 
   return (
     <DefaultLayout header={<MainHeader />}>

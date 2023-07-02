@@ -84,21 +84,21 @@ const MypageView = () => {
     });
   };
 
-  if (userDataLoading || colorDataLoading) {
-    return (
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-        `}
-      >
-        loading...
-      </div>
-    );
-  }
+  // if (userDataLoading || colorDataLoading) {
+  //   return (
+  //     <div
+  //       css={css`
+  //         display: flex;
+  //         align-items: center;
+  //         justify-content: center;
+  //         width: 100%;
+  //         height: 100%;
+  //       `}
+  //     >
+  //       loading...
+  //     </div>
+  //   );
+  // }
   return (
     <DefaultLayout header={<Header>{headerText}</Header>}>
       <div css={mainContainer}>
