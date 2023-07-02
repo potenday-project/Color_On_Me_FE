@@ -73,7 +73,8 @@ const LoginPage = () => {
             컬러온미가 처음이신가요?
             <button
               css={signupStyle}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 router.push("/signup");
               }}
             >
