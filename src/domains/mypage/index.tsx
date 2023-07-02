@@ -15,6 +15,7 @@ import { useGetUser, usePostUser } from "../shared/query/user/user.queries";
 import { usePersonalColor } from "../shared/query/personal-color/color.queries";
 import { PERSONAL_COLOR_MAPPING } from "../shared/constants/constants";
 import { useLogout } from "../shared/query/auth/auth.queries";
+import Loading from "../shared/components/Loading";
 
 const MypageView = () => {
   const router = useRouter();
@@ -85,19 +86,7 @@ const MypageView = () => {
   };
 
   if (userDataLoading) {
-    return (
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-        `}
-      >
-        loading...
-      </div>
-    );
+    return <Loading />;
   }
   return (
     <DefaultLayout header={<Header>{headerText}</Header>}>
