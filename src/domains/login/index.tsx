@@ -6,6 +6,7 @@ import { useLogin } from "../shared/query/auth/auth.queries";
 import MainLogo from "../shared/components/MainLogo";
 import CenteredLayout from "../shared/components/layout/CenteredLayout";
 import Button from "../shared/components/Button";
+import LoginWithKakao from "./LoginWithKakao";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -69,6 +70,7 @@ const LoginPage = () => {
             {isCredentialError && loginError}
           </div>
           <Button variant="colored">로그인</Button>
+
           <div css={signupMessage}>
             컬러온미가 처음이신가요?
             <button
@@ -81,7 +83,21 @@ const LoginPage = () => {
               회원가입
             </button>
           </div>
+          <div
+            css={css`
+              width: 100%;
+            `}
+          ></div>
         </form>
+        <div
+          css={css`
+            width: 70%;
+            position: absolute;
+            bottom: 10%;
+          `}
+        >
+          <LoginWithKakao />
+        </div>
       </main>
     </CenteredLayout>
   );
