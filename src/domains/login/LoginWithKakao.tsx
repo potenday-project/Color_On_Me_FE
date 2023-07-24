@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
 import KakaoIcon from "public/icons/kakao.svg";
-import { BASE_URL } from "../shared/constants/constants";
+import { SERVER_BASE_URL } from "../shared/constants/constants";
 
 const LoginWithKakao = () => {
   return (
-    <Link href={`${BASE_URL}/auth/login/kakao`} css={linkStyle}>
+    <Link href={`${SERVER_BASE_URL}/auth/login/kakao`} css={linkStyle}>
       <button css={kakaoLoginButton}>
         <KakaoIcon
           css={css`
