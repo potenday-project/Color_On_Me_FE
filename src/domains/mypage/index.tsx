@@ -31,7 +31,7 @@ const MypageView = () => {
   const { mutate: logoutMutate } = useLogout();
 
   const [currentColor, setCurrentColor] = useState({
-    code: null,
+    code: "",
     name: "",
   });
 
@@ -59,11 +59,7 @@ const MypageView = () => {
     }
   }, [userData]);
 
-  const handleColorSelection = (
-    colorCode: string,
-    colorName: string,
-    index: number
-  ) => {
+  const handleColorSelection = (colorCode: any, colorName: any, index: any) => {
     console.log(index);
     setCurrentColor({
       name: colorName,

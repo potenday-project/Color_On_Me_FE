@@ -109,7 +109,7 @@ export const PERSONAL_COLOR_MAPPING: PersonalColorType = {
   "겨울 쿨 딥": "Best_WC_DP",
 };
 
-export const PERSONAL_COLOR_MAPPING1 = {
+export const PERSONAL_COLOR_MAPPING1: any = {
   1: {
     code: "Best_SW_LG",
     string: "봄 웜 라이트",

@@ -30,8 +30,8 @@ const HomePage = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const [currentColor, setCurrentColor] = useState({
-    code: "",
-    name: "",
+    code: null,
+    name: null,
   });
   const [currentWheelColor, setCurrentWheelColor] = useState("");
   const [currentWheelColorInfo, setCurrentWheelColorInfo] = useState({
@@ -70,11 +70,7 @@ const HomePage = () => {
   };
 
   // 퍼스널 컬러 변경
-  const handleColorSelection = (
-    colorCode: string,
-    colorName: string,
-    index: number
-  ) => {
+  const handleColorSelection = (colorCode: any, colorName: any, index: any) => {
     setCurrentColor({
       name: colorName,
       code: index + 1,

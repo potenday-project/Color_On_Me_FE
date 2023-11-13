@@ -19,6 +19,6 @@ export const usePostId = () => {
 export const usePatchPersonalColor = () => {
   return useMutation({
     mutationKey: ["patchPersonalColor"],
-    mutationFn: (id: number) => UserRepository.patchPersonalColor(id),
+    mutationFn: (id: any) => UserRepository.patchPersonalColor(id),
   });
 };

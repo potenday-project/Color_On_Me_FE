@@ -7,7 +7,7 @@ import { mobileStyle } from "@/styles/sharedStyles";
 interface BottomSheetProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isOpen: boolean;
   close: () => void;
-  handleClick: (color: string, colorName: string) => void;
+  handleClick: (color: string, colorName: string, index: number) => void;
 }
 
 const BottomSheet = ({ isOpen, close, handleClick }: BottomSheetProps) => {
