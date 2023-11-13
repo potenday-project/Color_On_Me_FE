@@ -11,9 +11,16 @@ import Profile from "./components/Profile";
 import ColorBox from "./components/ColorBox";
 import { useIsShown } from "../shared/hooks/useIsShown";
 import BottomSheet from "../shared/components/BottomSheet";
-import { useGetUser, usePostUser } from "../shared/query/user/user.queries";
+import {
+  useGetUser,
+  usePatchPersonalColor,
+  usePostUser,
+} from "../shared/query/user/user.queries";
 import { usePersonalColor } from "../shared/query/personal-color/color.queries";
-import { PERSONAL_COLOR_MAPPING } from "../shared/constants/constants";
+import {
+  PERSONAL_COLOR_MAPPING,
+  PERSONAL_COLOR_MAPPING1,
+} from "../shared/constants/constants";
 import { useLogout } from "../shared/query/auth/auth.queries";
 import Loading from "../shared/components/Loading";
 
@@ -24,17 +31,17 @@ const MypageView = () => {
   const { mutate: logoutMutate } = useLogout();
 
   const [currentColor, setCurrentColor] = useState({
-    code: "",
+    code: null,
     name: "",
   });
 
   const { data: colorData, isLoading: colorDataLoading } = usePersonalColor(
-    currentColor.code || "SW_LG"
+    currentColor.code || 1
   );
   const colors = colorData?.colors?.map(
     (color: any) => `rgb(${color.r}, ${color.g}, ${color.b})`
   );
-  const { mutate: selectMutate } = usePostUser();
+  const { mutate: selectMutate } = usePatchPersonalColor();
 
   const [isShown, onOpen, onClose] = useIsShown();
 
@@ -43,18 +50,24 @@ const MypageView = () => {
   const headerText = isEdit ? "마이페이지 변경" : "마이페이지";
 
   useEffect(() => {
-    if (userData && userData.personalColor) {
+    if (userData && userData.personalColorId) {
       setCurrentColor({
-        code: PERSONAL_COLOR_MAPPING[userData.personalColor],
-        name: userData.personalColor,
+        // code: PERSONAL_COLOR_MAPPING[userData.personalColor],
+        code: userData.personalColorId,
+        name: PERSONAL_COLOR_MAPPING1[userData.personalColorId].string,
       });
     }
   }, [userData]);
 
-  const handleColorSelection = (colorCode: string, colorName: string) => {
+  const handleColorSelection = (
+    colorCode: string,
+    colorName: string,
+    index: number
+  ) => {
+    console.log(index);
     setCurrentColor({
       name: colorName,
-      code: colorCode,
+      code: index + 1,
     });
     setIsEdit(true);
     onClose();
@@ -69,7 +82,7 @@ const MypageView = () => {
   };
 
   const handleSubmit = () => {
-    selectMutate(currentColor.name, {
+    selectMutate(currentColor.code, {
       onSuccess: () => {
         queryClient.invalidateQueries(["getUser"]);
         setIsEdit(false);

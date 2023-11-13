@@ -20,11 +20,14 @@ const withAuth = (
         try {
           const responseUser = await client.get("auth/user/me");
           const responseAttributes = await client.get("users");
+          console.log("responseAttributes", responseAttributes);
 
-          const { personalColor } = responseAttributes;
+          const { personalColorId } = responseAttributes;
+          // const { personalColorId } = responseAttributes;
 
-          if (!personalColor) {
-            router.replace("/personalcolor/select");
+          if (!personalColorId) {
+            // router.replace("/personalcolor/select");
+            router.replace("/qrcode");
             return;
           }
 

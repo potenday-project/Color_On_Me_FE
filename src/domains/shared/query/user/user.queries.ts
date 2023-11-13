@@ -11,3 +11,14 @@ export const usePostUser = () => {
 export const useGetUser = () => {
   return useQuery(["getUser"], () => UserRepository.getUser());
 };
+
+export const usePostId = () => {
+  return useQuery(["postId"], () => UserRepository.postId());
+};
+
+export const usePatchPersonalColor = () => {
+  return useMutation({
+    mutationKey: ["patchPersonalColor"],
+    mutationFn: (id: number) => UserRepository.patchPersonalColor(id),
+  });
+};

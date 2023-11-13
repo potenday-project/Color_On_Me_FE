@@ -12,7 +12,10 @@ import { usePersonalColor } from "../shared/query/personal-color/color.queries";
 import MainLogo from "../shared/components/MainLogo";
 import SelectIcon from "public/icons/select.svg";
 import { useGetUser } from "../shared/query/user/user.queries";
-import { PERSONAL_COLOR_MAPPING } from "../shared/constants/constants";
+import {
+  PERSONAL_COLOR_MAPPING,
+  PERSONAL_COLOR_MAPPING1,
+} from "../shared/constants/constants";
 import { parseRGB } from "../shared/utils/parseRGB";
 import Tag from "../shared/components/Tag";
 import Loading from "../shared/components/Loading";
@@ -67,10 +70,14 @@ const HomePage = () => {
   };
 
   // 퍼스널 컬러 변경
-  const handleColorSelection = (colorCode: string, colorName: string) => {
+  const handleColorSelection = (
+    colorCode: string,
+    colorName: string,
+    index: number
+  ) => {
     setCurrentColor({
       name: colorName,
-      code: colorCode,
+      code: index + 1,
     });
     onClose();
   };
@@ -79,8 +86,8 @@ const HomePage = () => {
   useEffect(() => {
     if (!userData) return;
     setCurrentColor({
-      code: PERSONAL_COLOR_MAPPING[userData.personalColor],
-      name: userData.personalColor,
+      code: userData.personalColorId,
+      name: PERSONAL_COLOR_MAPPING1[userData.personalColorId].string,
     });
   }, [userData]);
 

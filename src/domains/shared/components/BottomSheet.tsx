@@ -26,11 +26,11 @@ const BottomSheet = ({ isOpen, close, handleClick }: BottomSheetProps) => {
         <Sheet.Content css={contentStyle}>
           <Sheet.Scroller>
             {Object.entries(PERSONAL_COLOR_MAPPING).map(
-              ([colorName, colorCode]) => (
+              ([colorName, colorCode], index) => (
                 <button
                   key={colorName}
                   css={colorButton}
-                  onClick={() => handleClick(colorCode, colorName)}
+                  onClick={() => handleClick(colorCode, colorName, index)}
                 >
                   {colorName}
                 </button>

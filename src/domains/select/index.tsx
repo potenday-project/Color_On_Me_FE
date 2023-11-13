@@ -4,18 +4,18 @@ import { css } from "@emotion/react";
 import { PERSONAL_COLOR } from "../shared/constants/constants";
 import { useIsShown } from "../shared/hooks/useIsShown";
 import CenteredLayout from "../shared/components/layout/CenteredLayout";
-import { usePostUser } from "../shared/query/user/user.queries";
+import { usePatchPersonalColor } from "../shared/query/user/user.queries";
 
 const SelectPage = () => {
   const router = useRouter();
 
   const [isShown, onOpen, onClose] = useIsShown();
-  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<null | number>(null);
 
-  const { mutate: selectMutate } = usePostUser();
+  const { mutate: selectColor } = usePatchPersonalColor();
 
-  const handleColorSelection = (color: string) => {
-    setSelectedColor(color);
+  const handleColorSelection = (colorId: number) => {
+    setSelectedColor(colorId);
   };
 
   const handleClickStartButton = () => {
@@ -23,7 +23,7 @@ const SelectPage = () => {
       onOpen();
       return;
     }
-    selectMutate(selectedColor, {
+    selectColor(selectedColor, {
       onSuccess: () => {
         router.push("/");
       },
@@ -58,15 +58,15 @@ const SelectPage = () => {
           <div css={gridStyle}>
             {Object.entries(PERSONAL_COLOR).map(([season, colors]) => (
               <div key={season} css={columnStyle}>
-                {colors?.map(({ name, color, fontColor }) => (
+                {colors?.map(({ id, name, color, fontColor }) => (
                   <button
                     key={name}
                     css={css`
                       ${colorButton};
-                      background: ${selectedColor === name ? color : "#f4f4f4"};
-                      color: ${selectedColor === name ? fontColor : "#000"};
+                      background: ${selectedColor === id ? color : "#f4f4f4"};
+                      color: ${selectedColor === id ? fontColor : "#000"};
                     `}
-                    onClick={() => handleColorSelection(name)}
+                    onClick={() => handleColorSelection(id)}
                   >
                     {name}
                   </button>
