@@ -7,7 +7,7 @@ import useColor from "../hooks/useColor";
 const MainHeader = () => {
   const [colorRange, setColorRange] = useColor();
 
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(colorRange === "worst");
 
   const toggleColor = (e: any) => {
     setIsChecked(e.target.checked);
@@ -22,9 +22,8 @@ const MainHeader = () => {
   };
 
   useEffect(() => {
-    const color = localStorage.getItem("colorRange");
-    setColorRange(color as "best" | "worst");
-    setIsChecked(color !== "best");
+    const color = localStorage.getItem("colorRange") || "best";
+    setColorRange(color as any);
   }, []);
 
   return (
