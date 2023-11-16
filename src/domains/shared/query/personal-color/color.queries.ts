@@ -6,3 +6,9 @@ export const usePersonalColor = (code: any) => {
     ColorRepository.getPersonalColor(code)
   );
 };
+
+export const useWorstColor = (code: any) => {
+  return useQuery(["worstColor", code], () =>
+    ColorRepository.getWorstPersonalColor(code)
+  );
+};

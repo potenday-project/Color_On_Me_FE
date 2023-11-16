@@ -8,7 +8,10 @@ import TitleText from "../shared/components/TitleText";
 import BottomSheet from "../shared/components/BottomSheet";
 import { useIsShown } from "../shared/hooks/useIsShown";
 import SpinWheel from "../shared/components/wheel/SpinWheel";
-import { usePersonalColor } from "../shared/query/personal-color/color.queries";
+import {
+  usePersonalColor,
+  useWorstColor,
+} from "../shared/query/personal-color/color.queries";
 import MainLogo from "../shared/components/MainLogo";
 import SelectIcon from "public/icons/select.svg";
 import { useGetUser } from "../shared/query/user/user.queries";
@@ -19,10 +22,13 @@ import {
 import { parseRGB } from "../shared/utils/parseRGB";
 import Tag from "../shared/components/Tag";
 import Loading from "../shared/components/Loading";
+import useColor from "../shared/hooks/useColor";
 
 const moods = ["#청순한", "#은은한", "가벼운"];
 
 const HomePage = () => {
+  const [colorRange, setColorRange] = useColor();
+
   const { data: userData, isLoading: userDataLoading } = useGetUser();
 
   const [isShown, onOpen, onClose] = useIsShown();
@@ -44,6 +50,11 @@ const HomePage = () => {
     currentColor.code
   );
 
+  const { data: worstColorData, isLoading: worstColorDataLoading } =
+    useWorstColor(currentColor.code);
+
+  const currentColorRange = colorRange === "best" ? colorData : worstColorData;
+
   function openModal() {
     if (!isShown) {
       setIsOpen(true);
@@ -57,7 +68,7 @@ const HomePage = () => {
   // 휠 컬러 변경에 따른 컬러 정보 변경
   const handleColorChange = (rgbColor: string) => {
     setCurrentWheelColor(rgbColor);
-    const colorInfo = colorData?.colors?.find(
+    const colorInfo = currentColorRange?.colors?.find(
       (color: any) => `rgb(${color.r}, ${color.g}, ${color.b})` === rgbColor
     );
 
@@ -89,20 +100,20 @@ const HomePage = () => {
 
   // 퍼스널 컬러에 따른 색상 초기 세팅
   useEffect(() => {
-    if (!colorData) return;
-    const colors = colorData?.colors?.map(
+    if (!currentColorRange) return;
+    const colors = currentColorRange?.colors?.map(
       (color: any) => `rgb(${color.r}, ${color.g}, ${color.b})`
     );
     setWheelPropsColors(colors);
-    if (colorData?.colors?.length > 0) {
+    if (currentColorRange?.colors?.length > 0) {
       setCurrentWheelColor(colors[0]);
 
       setCurrentWheelColorInfo({
-        name: colorData.colors[0].name,
+        name: currentColorRange.colors[0].name,
         rgb: colors[0],
       });
     }
-  }, [colorData]);
+  }, [currentColorRange]);
 
   if (userDataLoading) {
     return <Loading />;
@@ -131,16 +142,36 @@ const HomePage = () => {
           <TitleText onClick={onOpen}>{currentColor.name}</TitleText>
           <SelectIcon />
         </div>
-        <div css={moodTagContainer}>
-          {/* {colorData?.moods?.map((mood: any) => (
+        {colorRange === "best" ? (
+          <div css={moodTagContainer}>
+            {/* {currentColorRange?.moods?.map((mood: any) => (
             <div key={mood.name} css={moodTag}>
               {mood.name}
             </div>
           ))} */}
-          {(colorData?.moods || moods).map((mood: any, index: number) => (
-            <Tag key={index}>{mood ? mood.name : "#청순한"}</Tag>
-          ))}
-        </div>
+            {(currentColorRange?.moods || moods).map(
+              (mood: any, index: number) => (
+                <Tag key={index}>{mood ? mood.name : "#청순한"}</Tag>
+              )
+            )}
+          </div>
+        ) : (
+          <div
+            css={css`
+              margin-top: 22px;
+              margin-left: 5%;
+              width: 148px;
+              color: #878787;
+              line-height: 1.5;
+            `}
+          >
+            {(currentColorRange?.moods || moods).map(
+              (mood: any, index: number) => (
+                <div key={index}>{mood && mood.name}</div>
+              )
+            )}
+          </div>
+        )}
 
         {isShown && (
           <BottomSheet
