@@ -49,7 +49,6 @@ const Profile = ({
 };
 
 const qrStyles = css`
-  border: 1px solid var(--Grayscale-50, #878787);
   padding: 5px 10px;
   border-radius: 30px;
   background: var(--Grayscale-0, #fff);
@@ -63,7 +62,8 @@ const qrStyles = css`
   font-weight: 700;
   line-height: 21px; /* 150% */
   letter-spacing: -0.14px;
-  /* margin-right: 2%; */
+
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
 
   cursor: pointer;
 `;
