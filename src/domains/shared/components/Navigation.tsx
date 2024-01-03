@@ -15,7 +15,7 @@ const Navigation = () => {
   return (
     <footer css={footerContainer}>
       <nav css={[centeredStyle, navContainer]}>
-        <GhostButton onClick={() => moveTo("/")}>
+        <GhostButton onClick={() => router.push("/")}>
           <IconWithText
             color={router.pathname === "/" ? "#000000" : "#B9BEC1"}
             icon={
@@ -27,7 +27,7 @@ const Navigation = () => {
           />
         </GhostButton>
         <IconWithText icon={<LogoIcon />} bottomText="" />
-        <GhostButton onClick={() => moveTo("/mypage")}>
+        <GhostButton onClick={() => router.push("/mypage")}>
           <IconWithText
             color={router.pathname === "/mypage" ? "#000000" : "#B9BEC1"}
             icon={
