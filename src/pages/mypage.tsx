@@ -6,4 +6,4 @@ const Mypage: NextPage = () => {
   return <MypageView />;
 };
 
-export default withAuth(Mypage);
+export default Mypage;
